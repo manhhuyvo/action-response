@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class Errors
+class ErrorsList
 {
     private array $errors = [];
 
@@ -144,9 +144,9 @@ class Errors
 
         if (! Arr::isAssoc($errors)) {
             $errors = $this->sanitizeSingleErrors($errors);
+        } else {
+            $errors = $this->sanitizeAssocErrors($errors);
         }
-
-        $errors = $this->sanitizeAssocErrors($errors);
 
         return $errors;
     }
@@ -166,7 +166,7 @@ class Errors
         }
 
         return collect($errors)
-            ->filter()
+            ->filter(fn (mixed $error) => ! empty($errors) && is_string($error))
             ->unique()
             ->values()
             ->toArray();
