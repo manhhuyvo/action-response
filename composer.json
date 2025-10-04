@@ -1,0 +1,15 @@
+{
+    "name": "manhhuyvo/action-response",
+    "description": "A simple and standardized response object for an action in PHP projects.",
+    "autoload": {
+        "psr-4": {
+            "ManhHuyVo\\ActionResponse\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Manh Huy Vo"
+        }
+    ],
+    "require": {}
+}
