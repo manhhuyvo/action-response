@@ -196,7 +196,12 @@ class ErrorsList
         }
 
         return collect($errors)
-            ->reject(fn (mixed $value, string|int $key) => ! is_string($key) || ! is_string($value) || empty($value))
+            ->map(
+                fn (mixed $value) => (! is_array($value) && ! is_string($value)) || empty($value)
+                    ? null
+                    : $this->sanitizeSingleErrors(Arr::flatten(Arr::wrap($value)))
+            )
+            ->reject(fn (mixed $value, string|int $key) => ! is_string($key) || empty($value))
             ->toArray();
     }
 
