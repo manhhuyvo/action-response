@@ -54,10 +54,20 @@ class ErrorsListTest extends TestCase
         $this->assertSame(0, $errors->count());
     }
 
-    #[DataProviderExternal(FlexibleErrorsProvider::class, 'singleErrorsListInvalid')]
-    public function testCreateFlexibleErrorsListWithSingleArrayContainsInvalidItem(array $data, array $expected): void
+    #[DataProviderExternal(FlexibleErrorsProvider::class, 'singleErrorsList')]
+    public function testCreateFlexibleErrorsListWithSingleArray(array $data, array $expected): void
     {
         $errorsList = ErrorsList::flexible($data);
+
+        $errors = $errorsList->getErrors();
+
+        $this->assertInstanceOf(Collection::class, $errors);
+        $this->assertIsArray($errors->toArray());
+        $this->assertFalse($errorsList->isStrict());
+        $this->assertSame($expected, $errors->toArray());
+        $this->assertSame(count($expected), $errors->count());
+
+        $errorsList = ErrorsList::fromErrors($data);
 
         $errors = $errorsList->getErrors();
 

@@ -10,7 +10,15 @@ use Illuminate\Support\Str;
 
 final class FlexibleErrorsProvider
 {
-    public static function singleErrorsListValid(): array
+    public static function singleErrorsList(): array
+    {
+        $validCases = self::singleErrorsListValid();
+        $invalidCases = self::singleErrorsListInvalid();
+
+        return array_merge($validCases, $invalidCases);
+    }
+
+    private static function singleErrorsListValid(): array
     {
         $data = [
             Str::random(),
@@ -21,12 +29,11 @@ final class FlexibleErrorsProvider
         $expected = $data;
 
         return [
-            $data,
-            $expected,
+            'valid list with string item' => [$data, $expected],
         ];
     }
 
-    public static function singleErrorsListInvalid(): array
+    private static function singleErrorsListInvalid(): array
     {
         // Data contains empty item
         $dataEmptyItem = [
@@ -54,8 +61,8 @@ final class FlexibleErrorsProvider
         ];
 
         return [
-            //[$dataEmptyItem, $expectedFromDataEmptyItem],
-            [$dataNonStringItem, $expectedFromDataNonStringItem],
+            'invalid list contains empty item' => [$dataEmptyItem, $expectedFromDataEmptyItem],
+            'invalid list contains non-string items' => [$dataNonStringItem, $expectedFromDataNonStringItem],
         ];
     }
 }
