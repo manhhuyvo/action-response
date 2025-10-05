@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\DataProvider\ErrorsList;
+namespace Tests\DataProvider\ErrorsBag;
 
 require_once "vendor/autoload.php";
 
@@ -11,25 +11,91 @@ use Illuminate\Support\Str;
 
 final class FlexibleErrorsProvider
 {
-    public static function singleErrorsList(): array
+    public static function singleErrorsBag(): array
     {
         return array_merge(
-            self::singleErrorsListValid(),
-            self::singleErrorsListInvalid(),
+            self::singleErrorsBagValid(),
+            self::singleErrorsBagInvalid(),
         );
 
         return array_merge($validCases, $invalidCases);
     }
 
-    public static function assocErrorsListInvalid(): array
-    {   
+    public static function assocErrorsBag(): array
+    {
         return array_merge(
-            self::assocErrorsListInvalidEmptyMessage(),
-            self::assocErrorsListInvalidMultiLevelsAssocData(),
+            self::assocErrorsBagValid(),
+            self::assocErrorsBagInvalid(),
         );
     }
 
-    private static function assocErrorsListInvalidEmptyMessage(): array
+    private static function assocErrorsBagValid(): array
+    {
+        return array_merge(
+            self::assocErrorsBagValidTwoLevelAssocData(),
+            self::assocErrorsBagValidMultiLevelsAssocData(),
+        );
+    }
+
+    private static function assocErrorsBagValidTwoLevelAssocData(): array
+    {
+        $data = [
+            'field_one' => [
+                Str::random(),
+                Str::random(),
+                Str::random(),
+            ],
+            'field_two' => [
+                Str::random(),
+                Str::random(),
+                Str::random(),
+            ],
+        ];
+
+        $expected = [
+            'field_one' => $data['field_one'],
+            'field_two' => $data['field_two'],
+        ];
+
+        return [
+            'valid list contains two-level associative array' => [$data, $expected],
+        ];
+    }
+
+    private static function assocErrorsBagValidMultiLevelsAssocData(): array
+    {
+        $data = [
+            'field_one' => [
+                'sub_field_one' => ['one', 'two', 'three'],
+                'sub_field_two' => 'four',
+            ],
+            'field_two' => [
+                'sub_field_one' => [
+                    'another' => ['one', 'two', 'three']
+                ],
+                'sub_field_two' => 'four',
+            ],
+        ];
+
+        $expected = [
+            'field_one' => ['one', 'two', 'three', 'four'],
+            'field_two' => ['one', 'two', 'three', 'four'],
+        ];
+
+        return [
+            'valid list contains multi-levels associative arrays' => [$data, $expected],
+        ];
+    }
+
+    private static function assocErrorsBagInvalid(): array
+    {   
+        return array_merge(
+            self::assocErrorsBagInvalidEmptyMessage(),
+            self::assocErrorsBagInvalidMultiLevelsAssocData(),
+        );
+    }
+
+    private static function assocErrorsBagInvalidEmptyMessage(): array
     {
         $data = [
             'field_one' => null,
@@ -51,7 +117,7 @@ final class FlexibleErrorsProvider
         ];
     }
 
-    private static function assocErrorsListInvalidMultiLevelsAssocData(): array
+    private static function assocErrorsBagInvalidMultiLevelsAssocData(): array
     {
         $data = [
             'field_one' => [
@@ -81,7 +147,7 @@ final class FlexibleErrorsProvider
         ];
     }
 
-    private static function singleErrorsListValid(): array
+    private static function singleErrorsBagValid(): array
     {
         $data = [
             Str::random(),
@@ -96,7 +162,7 @@ final class FlexibleErrorsProvider
         ];
     }
 
-    private static function singleErrorsListInvalid(): array
+    private static function singleErrorsBagInvalid(): array
     {
         // Data contains empty item
         $dataEmptyItem = [

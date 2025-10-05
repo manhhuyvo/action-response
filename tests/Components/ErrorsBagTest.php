@@ -6,98 +6,98 @@ namespace Tests\Components;
 
 require_once "vendor/autoload.php";
 
-use ManhHuyVo\ActionResponse\Components\ErrorsList;
+use ManhHuyVo\ActionResponse\Components\ErrorsBag;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
-use Tests\DataProvider\ErrorsList\FlexibleErrorsProvider;
+use Tests\DataProvider\ErrorsBag\FlexibleErrorsProvider;
 
-class ErrorsListTest extends TestCase
+class ErrorsBagTest extends TestCase
 {
-    public function testCreateFlexibleEmptyErrorsList(): void
+    public function testCreateFlexibleEmptyErrorsBag(): void
     {
-        $errorsList = ErrorsList::flexible();
+        $errorsBag = ErrorsBag::flexible();
 
-        $errors = $errorsList->getErrors();
+        $errors = $errorsBag->getErrors();
 
         $this->assertInstanceOf(Collection::class, $errors);
         $this->assertIsArray($errors->toArray());
-        $this->assertFalse($errorsList->isStrict());
+        $this->assertFalse($errorsBag->isStrict());
         $this->assertEmpty($errors->toArray());
         $this->assertSame(0, $errors->count());
     }
 
-    public function testCreateStrictEmptyErrorsList(): void
+    public function testCreateStrictEmptyErrorsBag(): void
     {
-        $errorsList = ErrorsList::strict();
+        $errorsBag = ErrorsBag::strict();
 
-        $errors = $errorsList->getErrors();
+        $errors = $errorsBag->getErrors();
 
         $this->assertInstanceOf(Collection::class, $errors);
         $this->assertIsArray($errors->toArray());
         $this->assertEmpty($errors->toArray());
         $this->assertSame(0, $errors->count());
-        $this->assertTrue($errorsList->isStrict());
+        $this->assertTrue($errorsBag->isStrict());
     }
 
-    public function testCreateErrorsListFromEmptyArray(): void
+    public function testCreateErrorsBagFromEmptyArray(): void
     {
-        $errorsList = ErrorsList::fromErrors();
+        $errorsBag = ErrorsBag::fromErrors();
 
-        $errors = $errorsList->getErrors();
+        $errors = $errorsBag->getErrors();
 
         $this->assertInstanceOf(Collection::class, $errors);
         $this->assertIsArray($errors->toArray());
-        $this->assertFalse($errorsList->isStrict());
+        $this->assertFalse($errorsBag->isStrict());
         $this->assertEmpty($errors->toArray());
         $this->assertSame(0, $errors->count());
     }
 
-    #[DataProviderExternal(FlexibleErrorsProvider::class, 'singleErrorsList')]
-    public function testCreateFlexibleErrorsListWithSingleArray(array $data, array $expected): void
+    #[DataProviderExternal(FlexibleErrorsProvider::class, 'singleErrorsBag')]
+    public function testCreateFlexibleErrorsBagWithSingleArray(array $data, array $expected): void
     {
-        $errorsList = ErrorsList::flexible($data);
+        $errorsBag = ErrorsBag::flexible($data);
 
-        $errors = $errorsList->getErrors();
+        $errors = $errorsBag->getErrors();
 
         $this->assertInstanceOf(Collection::class, $errors);
         $this->assertIsArray($errors->toArray());
-        $this->assertFalse($errorsList->isStrict());
+        $this->assertFalse($errorsBag->isStrict());
         $this->assertSame($expected, $errors->toArray());
         $this->assertSame(count($expected), $errors->count());
 
-        $errorsList = ErrorsList::fromErrors($data);
+        $errorsBag = ErrorsBag::fromErrors($data);
 
-        $errors = $errorsList->getErrors();
+        $errors = $errorsBag->getErrors();
 
         $this->assertInstanceOf(Collection::class, $errors);
         $this->assertIsArray($errors->toArray());
-        $this->assertFalse($errorsList->isStrict());
+        $this->assertFalse($errorsBag->isStrict());
         $this->assertSame($expected, $errors->toArray());
         $this->assertSame(count($expected), $errors->count());
     }
 
-    #[DataProviderExternal(FlexibleErrorsProvider::class, 'assocErrorsListInvalid')]
-    public function testCreateFlexibleErrorsListWithAssociativeArray(array $data, array $expected): void
+    #[DataProviderExternal(FlexibleErrorsProvider::class, 'assocErrorsBag')]
+    public function testCreateFlexibleErrorsBagWithAssociativeArrays(array $data, array $expected): void
     {
-        $errorsList = ErrorsList::flexible($data);
+        $errorsBag = ErrorsBag::flexible($data);
 
-        $errors = $errorsList->getErrors();
+        $errors = $errorsBag->getErrors();
 
         $this->assertInstanceOf(Collection::class, $errors);
         $this->assertIsArray($errors->toArray());
-        $this->assertFalse($errorsList->isStrict());
+        $this->assertFalse($errorsBag->isStrict());
         $this->assertSame($expected, $errors->toArray());
         $this->assertSame(count($expected), $errors->count());
 
         
-        $errorsList = ErrorsList::fromErrors($data);
+        $errorsBag = ErrorsBag::fromErrors($data);
 
-        $errors = $errorsList->getErrors();
+        $errors = $errorsBag->getErrors();
 
         $this->assertInstanceOf(Collection::class, $errors);
         $this->assertIsArray($errors->toArray());
-        $this->assertFalse($errorsList->isStrict());
+        $this->assertFalse($errorsBag->isStrict());
         $this->assertSame($expected, $errors->toArray());
         $this->assertSame(count($expected), $errors->count());
     }

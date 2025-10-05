@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class ErrorsList
+class ErrorsBag
 {
     private array $errors = [];
 
