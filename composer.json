@@ -1,6 +1,6 @@
 {
     "name": "manhhuyvo/action-response",
-    "description": "A simple and standardized response object for an action in PHP projects.",
+    "description": "A fluent, structured PHP action response class which supports messages, errors, and data.",
     "autoload": {
         "psr-4": {
             "ManhHuyVo\\ActionResponse\\": "src/"
