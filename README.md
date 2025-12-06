@@ -77,7 +77,7 @@ Example structure:
     'errors' => [],
     'data' => [
         'foo' => 'bar'
-    ]
+    ],
 ]
 ```
 
@@ -116,8 +116,8 @@ $response = Response::success()->data([
     'user' => [
         'profile' => [
             'email' => 'john@example.com'
-        ]
-    ]
+        ],
+    ],
 ]);
 ```
 
@@ -149,7 +149,7 @@ enum ResponseStatus: string
 If you are developing locally, run PHPUnit:
 
 ```bash
-vendor/bin/phpunit
+vendor/bin/phpunit --testdox
 ```
 
 ---
