@@ -9,10 +9,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        },
-        "files": [
-            "tests/helpers.php"
-        ]
+        }
     },
     "authors": [
         {
@@ -20,6 +17,7 @@
         }
     ],
     "require": {
+        "php": ">=8.1",
         "illuminate/support": "^12.32"
     },
     "require-dev": {
