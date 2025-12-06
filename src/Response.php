@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace ManhHuyVo\ActionResponse;
 
-require_once 'vendor/autoload.php';
-
-use ManhHuyVo\Enums\ResponseStatus;
+use ManhHuyVo\ActionResponse\Enums\ResponseStatus;
 use Illuminate\Support\Arr;
 
 class Response
@@ -115,7 +113,11 @@ class Response
      */
     public function errors(?array $errors = []): self
     {
-        $this->errors = $errors;
+        $this->errors = collect($errors)
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
 
         return $this;
     }

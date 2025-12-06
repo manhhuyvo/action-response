@@ -1,6 +1,6 @@
 <?php
 
-namespace ManhHuyVo\Enums;
+namespace ManhHuyVo\ActionResponse\Enums;
 
 enum ResponseStatus: string
 {
