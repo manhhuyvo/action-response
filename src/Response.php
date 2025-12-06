@@ -85,7 +85,7 @@ class Response
      * @param string|null $status
      * @return Response
      */
-    public function status(?string $status = ''): self
+    public function status(string $status = ''): self
     {
         $this->status = $status;
 
@@ -98,7 +98,7 @@ class Response
      * @param string|null $status
      * @return Response
      */
-    public function message(?string $message = ''): self
+    public function message(string $message = ''): self
     {
         $this->message = $message;
 
@@ -111,7 +111,7 @@ class Response
      * @param array|null $errors
      * @return Response
      */
-    public function errors(?array $errors = []): self
+    public function errors(array $errors = []): self
     {
         $this->errors = collect($errors)
             ->filter()
@@ -128,7 +128,7 @@ class Response
      * @param array|null $data
      * @return Response
      */
-    public function data(?array $data = []): self
+    public function data(array $data = []): self
     {
         $this->data = $data;
 
@@ -171,7 +171,7 @@ class Response
      * @param string|null $key
      * @return mixed
      */
-    public function getData(?string $key = ''): mixed
+    public function getData(string $key = ''): mixed
     {
         if (empty($key)) {
             return $this->data;
@@ -180,5 +180,20 @@ class Response
         $data = Arr::dot($this->data);
 
         return $data[$key] ?? null;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'status' => $this->getStatus(),
+            'message' => $this->getMessage(),
+            'errors' => $this->getErrors(),
+            'data' => $this->getData(),
+        ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
     }
 }
